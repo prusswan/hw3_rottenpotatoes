@@ -15,6 +15,33 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
 end
+
+group :test do
+  gem 'spork-rails'
+  # gem 'webrat' # used for have_selector
+  #gem 'factory_girl_rails'
+  #gem 'capybara'
+  # gem 'turn'
+  # gem 'minitest'
+  #gem 'cucumber-rails'
+  #gem 'database_cleaner'
+
+  # Autotest gems
+  gem 'autotest'
+  gem 'autotest-rails-pure'
+  # gem 'autotest-fsevent'
+  gem 'autotest-growl'
+
+  # System-dependent gems for guard
+  # On windows
+  gem 'win32console', :platforms => [:mswin, :mingw] # for guard to use color
+  gem 'rb-fchange', :platforms => [:mswin, :mingw]
+  # gem 'rb-notifu' # system tray notification
+  gem 'ruby_gntp'   # Growl notification
+
+  #gem 'guard-spork' # for guard to evoke spork
+end
+
 group :production do
 #  gem 'pg'
 end
@@ -22,7 +49,7 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'therubyracer'              
+  gem 'therubyracer'
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
@@ -38,3 +65,4 @@ gem 'jquery-rails'
 
 # To use debugger
 gem 'haml'
+
