@@ -30,5 +30,33 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  ratings = rating_list.split
+  ratings.each do |r|
+    if uncheck
+      uncheck("ratings_#{r}")
+    else
+      check("ratings_#{r}")
+    end
+  end
+end
+
+When /^I submit the search form$/ do
+  click_button "Refresh"
+end
+
+Then /^I should see PG and R movies$/ do
+  #page.should have_xpath("//td[text()='PG']")
+  assert page.has_xpath?("//td[text()='PG']")
+  assert page.has_xpath?("//td[text()='R']")
+end
+
+Then /^I should not see other movies$/ do
+  assert page.has_no_xpath?("//td[text()='PG-13']")
+  assert page.has_no_xpath?("//td[text()='G']")
+end
+
+Then /^I should see all of the movies$/ do
+  #puts page.body
+  assert page.has_css?("table tbody tr", count: 10)
 end
 
