@@ -41,6 +41,18 @@ When /I sort the results by (.*)/ do |sort_order|
   click_link "#{sort_id}_header"
 end
 
+When /^I go to the edit page for "([^"]*)"$/ do |arg1|
+  visit edit_movie_path(Movie.find_by_title(arg1))
+end
+
+When /^I fill in "([^"]*)" with "([^"]*)"$/ do |arg1, arg2|
+  fill_in arg1, with: arg2
+end
+
+When /^I press "([^"]*)"$/ do |arg1|
+  click_button arg1
+end
+
 Then /^I should see PG and R movies$/ do
   #page.should have_xpath("//td[text()='PG']")
   assert page.has_xpath?("//td[text()='PG']")
@@ -65,5 +77,9 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  page.content  is the entire content of the page as a string.
   assert page.body =~ /#{e1}.*#{e2}/m
   #assert false, "Unimplmemented"
+end
+
+Then /^the director of "([^"]*)" should be "([^"]*)"$/ do |arg1, arg2|
+  assert Movie.find_by_title(arg1).director == arg2
 end
 
