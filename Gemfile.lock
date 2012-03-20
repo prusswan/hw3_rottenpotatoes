@@ -166,6 +166,9 @@ GEM
       ffi (~> 1.0.9)
       json_pure
       rubyzip
+    simplecov (0.4.2)
+      simplecov-html (~> 0.4.4)
+    simplecov-html (0.4.5)
     spork (1.0.0rc2)
     spork-rails (3.2.0)
       rails (>= 3.0.0, < 3.3.0)
@@ -212,6 +215,7 @@ DEPENDENCIES
   ruby-debug19
   ruby_gntp
   sass-rails (~> 3.1.0)
+  simplecov
   spork-rails
   sqlite3
   therubyracer
