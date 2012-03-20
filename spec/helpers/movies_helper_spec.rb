@@ -11,5 +11,21 @@ require 'spec_helper'
 #   end
 # end
 describe MoviesHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before do
+    @odd_num = 325 * 2 + 1
+    @even_num = 324 * 2
+  end
+
+  describe "oddness count" do
+    it "should identify an odd number" do
+      oddness(@odd_num).should == 'odd'
+    end
+
+    it "should identify an even number" do
+      oddness(@even_num).should == 'even'
+    end
+  end
+
 end
+

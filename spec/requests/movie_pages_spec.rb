@@ -145,5 +145,33 @@ describe "MoviePages" do
 
   end
 
+  describe "create" do
+
+    before do
+      visit movies_path
+      click_link 'Add new movie'
+      fill_in 'Title', with: 'Test movie'
+      click_button 'Save Changes'
+    end
+
+    it { should have_selector('div.message', text: 'successfully created') }
+
+  end
+
+  describe "destroy" do
+
+    before do
+      visit movies_path
+      click_link 'More about Amelie'
+    end
+
+    it "should reduce the movie count" do
+      expect do
+        click_button 'Delete'
+      end.to change(Movie, :count).by(-1)
+    end
+
+  end
+
 end
 
