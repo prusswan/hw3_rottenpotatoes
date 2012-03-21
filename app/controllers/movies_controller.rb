@@ -12,10 +12,16 @@ class MoviesController < ApplicationController
 
     id = params[:id]
     @movie = Movie.find(id)
+
+    if @movie.director.nil? || @movie.director.blank?
+      flash[:notice] = "'#{@movie.title}' has no director info"
+      redirect_to movies_path
+    end
+
     @movies = Movie.find_all_by_director(@movie.director)
   end
 
-  def index
+  def index_old
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
@@ -37,6 +43,42 @@ class MoviesController < ApplicationController
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
+  end
+
+  def index
+    session[:ratings] = params[:ratings] if params[:ratings]
+    session[:sort] = params[:sort] if params[:sort]
+
+    # redirect to RESTful path if session contains more info than provided in params
+    if (!params[:ratings] && session[:ratings]) || (!params[:sort] && session[:sort])
+      redirect_to movies_path(ratings: session[:ratings], sort: session[:sort])
+    end
+
+    query_base = Movie
+
+    if session[:ratings]
+      query_base = query_base.scoped(:conditions => { :rating => session[:ratings].keys })
+    end
+
+    if session[:sort]
+      query_base = query_base.scoped(:order => session[:sort])
+      case session[:sort]
+      when 'title'
+        ordering,@title_header = {:order => :title}, 'hilite'
+      when 'release_date'
+        ordering,@date_header = {:order => :release_date}, 'hilite'
+      end
+    end
+
+    @movies = query_base.all
+
+    @all_ratings = Movie.all_ratings
+
+    if session[:ratings]
+      @selected_ratings = session[:ratings]
+    else
+      @selected_ratings = {}
+    end
   end
 
   def new

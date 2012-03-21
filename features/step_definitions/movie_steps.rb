@@ -95,11 +95,20 @@ Then /^I should be on the Similar Movies page for "([^"]*)"$/ do |arg1|
   assert current_path == similar_movies_path(Movie.find_by_title(arg1))
 end
 
-Then /^I should(\snot)? see "([^"]*)"$/ do |not_match, arg1|
-  if not_match
-    assert_no_match(/#{arg1}/m, page.body)
+Then /^I should(\snot)? see "([^'"]*)('([^']+)'\shas\sno\sdirector\sinfo)?"$/ do |not_match, arg1, no_director, title|
+  if !no_director
+    if not_match
+      assert_no_match(/#{arg1}/m, page.body)
+    else
+      assert_match(/#{arg1}/m, page.body)
+    end
   else
-    assert_match(/#{arg1}/m, page.body)
+    assert page.has_xpath?("//td[text()='#{title}']//following-sibling::td[1][not(text())]")
+    assert_match(/#{no_director}/m, page.body)
   end
+end
+
+Then /^I should be on the home page$/ do
+  assert current_path == movies_path
 end
 
