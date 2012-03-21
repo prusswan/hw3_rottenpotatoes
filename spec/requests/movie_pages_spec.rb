@@ -20,10 +20,10 @@ describe "MoviePages" do
 
     before(:each) do
       visit movies_path
-      check 'ratings_G'
       check 'ratings_R'
-      check 'ratings_PG'
-      check 'ratings_PG-13'
+      uncheck 'ratings_G'
+      uncheck 'ratings_PG'
+      uncheck 'ratings_PG-13'
       click_button 'Refresh'
     end
 
@@ -32,8 +32,8 @@ describe "MoviePages" do
     it { should have_selector('th a#title_header', text: 'Movie Title') }
     it { should have_selector('a#release_date_header') }
 
-    it { should have_selector('td', text: 'Aladdin') }
-    it { should have_selector('td a', text: 'More about Aladdin') }
+    it { should have_selector('td', text: 'Amelie') }
+    it { should have_selector('td a', text: 'More about Amelie') }
 
     # it { puts page.body }
 
@@ -43,9 +43,9 @@ describe "MoviePages" do
         click_link 'title_header'
       end
 
-      it { should have_xpath('//tr[1]/td[1]', text: '2001: A Space Odyssey') }
-      it { should have_xpath('//tr[2]/td[1]', text: 'Aladdin') }
-      it { should have_xpath('//tr[3]/td[1]', text: 'Amelie') }
+      it { should have_xpath('//tr[1]/td[1]', text: 'Amelie') }
+      it { should have_xpath('//tr[2]/td[1]', text: 'The Terminator') }
+      it { should have_xpath('//tr[3]/td[1]', text: 'When Harry Met Sally') }
 
       it { should have_xpath("//th[@class='hilite']/a[@id='title_header']") }
       it { should_not have_xpath("//th[@class='hilite']/a[@id='release_date_header']") }
@@ -58,9 +58,9 @@ describe "MoviePages" do
         click_link 'release_date_header'
       end
 
-      it { should have_xpath('//tr[1]/td[1]', text: '2001: A Space Odyssey') }
-      it { should have_xpath('//tr[2]/td[1]', text: 'Raiders of the Lost Ark') }
-      it { should have_xpath('//tr[3]/td[1]', text: 'The Terminator') }
+      it { should have_xpath('//tr[1]/td[1]', text: 'The Terminator') }
+      it { should have_xpath('//tr[2]/td[1]', text: 'When Harry Met Sally') }
+      it { should have_xpath('//tr[3]/td[1]', text: 'Amelie') }
 
       it { should_not have_xpath("//th[@class='hilite']/a[@id='title_header']") }
       it { should have_xpath("//th[@class='hilite']/a[@id='release_date_header']") }

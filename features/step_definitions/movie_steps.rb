@@ -14,6 +14,10 @@ Given /^I am on the RottenPotatoes home page$/ do
   visit('/movies')
 end
 
+Given /^I am on the details page for "([^"]*)"$/ do |arg1|
+  visit movie_path(Movie.find_by_title(arg1))
+end
+
 # Make it easier to express checking or unchecking several boxes at once
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
@@ -53,6 +57,10 @@ When /^I press "([^"]*)"$/ do |arg1|
   click_button arg1
 end
 
+When /^I follow "([^"]*)"$/ do |arg1|
+  click_link arg1
+end
+
 Then /^I should see PG and R movies$/ do
   #page.should have_xpath("//td[text()='PG']")
   assert page.has_xpath?("//td[text()='PG']")
@@ -81,5 +89,17 @@ end
 
 Then /^the director of "([^"]*)" should be "([^"]*)"$/ do |arg1, arg2|
   assert Movie.find_by_title(arg1).director == arg2
+end
+
+Then /^I should be on the Similar Movies page for "([^"]*)"$/ do |arg1|
+  assert current_path == similar_movies_path(Movie.find_by_title(arg1))
+end
+
+Then /^I should(\snot)? see "([^"]*)"$/ do |not_match, arg1|
+  if not_match
+    assert_no_match(/#{arg1}/m, page.body)
+  else
+    assert_match(/#{arg1}/m, page.body)
+  end
 end
 

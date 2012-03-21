@@ -6,6 +6,15 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  def similar
+    @all_ratings = Movie.all_ratings
+    @selected_ratings = {}
+
+    id = params[:id]
+    @movie = Movie.find(id)
+    @movies = Movie.find_all_by_director(@movie.director)
+  end
+
   def index
     sort = params[:sort] || session[:sort]
     case sort
@@ -59,3 +68,4 @@ class MoviesController < ApplicationController
   end
 
 end
+
