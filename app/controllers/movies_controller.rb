@@ -51,6 +51,7 @@ class MoviesController < ApplicationController
 
     # redirect to RESTful path if session contains more info than provided in params
     if (!params[:ratings] && session[:ratings]) || (!params[:sort] && session[:sort])
+      flash.keep
       redirect_to movies_path(ratings: session[:ratings], sort: session[:sort])
     end
 
